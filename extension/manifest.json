@@ -9,8 +9,9 @@
     },
     "content_scripts": [
       {
-        "matches": ["*://*/*"],
-        "js": ["contentScript.js"]
+        "matches": ["<all_urls>"],
+        "js": ["contentScript.js"],
+        "run_at": "document_idle"
       }
     ],
     "manifest_version": 3
