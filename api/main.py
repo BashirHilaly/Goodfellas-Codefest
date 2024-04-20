@@ -1,9 +1,24 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import model
+import random
+from typing import List
+from pydantic import BaseModel
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Specify the correct domains in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class TextList(BaseModel):
+    texts: List[str]
 
 customWords = []
 
@@ -41,6 +56,11 @@ def get_model():
     modelprint = model.model
     return {modelprint}
     
+@app.post('/check-toxicity-fake/')
+async def checkFakeToxicity(data: TextList):
+    processed_texts = [random.randint(0,1) for _ in data.texts]  # fake processing
+    return {"text_toxicity": processed_texts}
+
 @app.get('/check-toxicity/{text}')
 def checkToxicity(text):
     result = model.predictToxicity(text)
