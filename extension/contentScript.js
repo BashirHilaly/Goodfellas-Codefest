@@ -9,7 +9,9 @@
   const collectContent = (node) => {
     // Check if the node is a header (h1 to h6) or a paragraph and has non-empty innerText
     if (
-      (node.tagName.match(/^H[1-6]$/) || node.tagName === "P") &&
+      (node.tagName.match(/^H[1-6]$/) ||
+        node.tagName === "P" ||
+        node.tagName === "SPAN") &&
       node.innerText.trim() !== ""
     ) {
       contentList.push(node);
@@ -33,30 +35,32 @@
   };
 
   // Sends textList to API and receives list of 1s and 0s
-  const sendToAPI = async () => {
-    /*
+  const processToxicity = async () => {
+    const url = "http://127.0.0.1:8000/check-toxicity-fake/";
     try {
-      const response = await fetch("https://", { //Finish the API Call here
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ texts: textList }),
       });
+
       if (!response.ok) {
         throw new Error("Network response was not ok: " + response.statusText);
       }
+
       const result = await response.json(); // assuming the server returns JSON
-      console.log("Received response:", result);
-      return result;
+      console.log("Received response:", result.text_toxicity);
+      return result.text_toxicity;
     } catch (error) {
       console.error("Error during fetch:", error);
-    }*/
+    }
 
     // Create an array of random 0s and 1s of the same length as textList
-    const simulatedResponse = textList.map(() => Math.round(Math.random()));
+    // const simulatedResponse = textList.map(() => Math.round(Math.random()));
 
-    return simulatedResponse;
+    // return simulatedResponse;
   };
 
   // Function to log or use the collected elements
@@ -96,7 +100,7 @@
     convertToInnerText();
     logContent();
 
-    sendToAPI().then((apiResponse) => {
+    processToxicity().then((apiResponse) => {
       console.log("API processing complete:", apiResponse);
       blurList = apiResponse;
       // When the script finishes initalization
