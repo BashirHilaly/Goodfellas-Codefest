@@ -1,0 +1,17 @@
+{
+    "name": "Toxicity Eraser",
+    "version": "0.1.0",
+    "description": "A Chrome extension for parents that uses Machine Learning to detect and censor toxic text.",
+    "permissions": ["activeTab", "tabs", "scripting", "webNavigation"],
+    "host_permissions": ["*://*/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "js": ["contentScript.js"]
+      }
+    ],
+    "manifest_version": 3
+  }
