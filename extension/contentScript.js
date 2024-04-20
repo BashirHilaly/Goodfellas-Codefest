@@ -3,6 +3,7 @@
   // Variables
   let contentList = [];
   let textList = [];
+  let blurList = [];
 
   // Recursive function to collect elements with non-empty innerHTML
   const collectContent = (node) => {
@@ -64,7 +65,7 @@
     console.log("Collected non-empty text:", textList);
   };
 
-  const applyBlur = (blurList) => {
+  const applyBlur = () => {
     // Ensure both lists are of the same length
     if (contentList.length !== blurList.length) {
       console.error("Error: contentList and blurList do not match in length.");
@@ -73,31 +74,78 @@
 
     // Loop through contentList and blurList
     for (let i = 0; i < contentList.length; i++) {
-      if (blurList[i] === 1) {
+      if (blurList[i] === 1 && !contentList[i].classList.contains("blur")) {
         // Check if the corresponding blurList element is 1
         contentList[i].classList.add("blur"); // Add the 'blur' class to the element
       }
     }
   };
 
-  // Receives messages from the background and edits the content page
-  chrome.runtime.onMessage.addListener((obj, sender, response) => {
-    const { message } = obj;
-    console.log(message); // This should log "Hello World!" when a new tab is loaded completely
+  const removeBlur = () => {
+    // Loop through contentList
+    for (let i = 0; i < contentList.length; i++) {
+      if (contentList[i].classList.contains("blur")) {
+        // Check if the element has the 'blur' class
+        contentList[i].classList.remove("blur"); // Remove the 'blur' class from the element
+      }
+    }
+  };
 
-    // Call the function on the document's body to start the collection process
+  const initializeBlur = () => {
     collectContent(document.body);
-
     convertToInnerText();
-
-    // Call Log content to see collected elements
     logContent();
 
-    // After collecting and converting text, send it to the API
     sendToAPI().then((apiResponse) => {
       console.log("API processing complete:", apiResponse);
-      applyBlur(apiResponse);
+      blurList = apiResponse;
+      // When the script finishes initalization
+      chrome.storage.local.get(["currentState"], function (result) {
+        if (result.currentState) {
+          updateBlur(result.currentState);
+        }
+      });
     });
+  };
+
+  const updateBlur = async (state) => {
+    if (state === "blur" || state === "unblur") {
+      chrome.storage.local.set({ currentState: state }, () => {
+        // Apply or remove blur based on the state
+        if (state === "blur") {
+          applyBlur();
+        } else if (state === "unblur") {
+          removeBlur();
+        }
+      });
+    } else {
+      console.error("Incorrect State Provided!");
+    }
+  };
+
+  // Receives messages from the background and edits the content page
+  chrome.runtime.onMessage.addListener((obj, sender, response) => {
+    const { action } = obj;
+
+    if (action === "blur" || action === "unblur") {
+      updateBlur(action);
+    } else if (action === "init") {
+      initializeBlur();
+    } else {
+      console.log("Incorrect Action Given!", action);
+    }
+  });
+
+  // Receives messages from the popup that the state has changed, applies to open tabs
+  chrome.storage.onChanged.addListener(function (changes, namespace) {
+    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+      if (
+        key === "currentState" &&
+        (newValue === "blur" || newValue === "unblur")
+      ) {
+        updateBlur(newValue);
+      }
+    }
   });
 })();
 
