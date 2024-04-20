@@ -5,6 +5,10 @@ import model
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"Hello":"World"}
+
 customWords = []
 
 # Add new words to the censor list
@@ -32,19 +36,11 @@ def delete_custom_word(word: str):
 def custom_words():
     return {"customWords": customWords}
 
-@app.get("/")
-def read_root():
-    return {"Hello":"World"}
-
-@app.get('/model')
-def get_model():
-    modelprint = model.model
-    return {modelprint}
     
 @app.get('/check-toxicity/{text}')
 def checkToxicity(text):
     result = model.predictToxicity(text)
-    return result
+    return f'{text} is: {result}'
 
 
 if __name__ == "__main__":
