@@ -8,4 +8,5 @@ h1{
 
 .blur{
     filter: blur(8px);
+	user-select: none;
 }
