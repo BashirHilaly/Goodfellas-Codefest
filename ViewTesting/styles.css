@@ -5,8 +5,3 @@ h1{
 	letter-spacing:-1px; 
 	padding: 50px; 
 } 
-
-.blur{
-    filter: blur(8px);
-	user-select: none;
-}

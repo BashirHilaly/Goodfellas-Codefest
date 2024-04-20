@@ -1,8 +1,8 @@
 {
-    "name": "Toxicity Eraser",
+    "name": "Safe Surfer",
     "version": "0.1.0",
     "description": "A Chrome extension for parents that uses Machine Learning to detect and censor toxic text.",
-    "permissions": ["activeTab", "tabs", "scripting", "webNavigation"],
+    "permissions": ["activeTab", "tabs", "scripting", "webNavigation", "storage"],
     "host_permissions": ["*://*/*", "https://your-api-endpoint.com/"],
     "background": {
       "service_worker": "background.js"
@@ -15,5 +15,9 @@
         "css" : ["blur.css"]
       }
     ],
+    "action": {
+      "default_title": "Safe Surfer",
+      "default_popup": "popup.html"
+    },
     "manifest_version": 3
   }
