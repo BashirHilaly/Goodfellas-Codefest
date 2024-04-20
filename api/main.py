@@ -14,6 +14,11 @@ def get_model():
     modelprint = model.model
     return {modelprint}
     
+@app.get('/check-toxicity/{text}')
+def checkToxicity(text):
+    result = model.predictToxicity(text)
+    return result
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
