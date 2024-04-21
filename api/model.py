@@ -5,19 +5,10 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 import os
-import json
 import numpy as np
 
-# Load the configuration for different model path computers
-def load_config():
-    with open('./config.json', 'r') as f:
-        config = json.load(f)
-    return config
-
-config = load_config()
-
-model_path = config['model_path']
-dataset_path = config['dataset_path']
+model_path = "../model/toxicity_model_v1.h5"
+dataset_path = "../dataset/toxicity_en.csv"
 
 df = pd.read_csv(dataset_path)
 
