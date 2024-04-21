@@ -76,10 +76,26 @@ def predictToxicity(text):
   print(toxicity_probability)
   if toxicity_probability > 0.5:
     print("Toxic")
-    return 'Toxic'
+    return 1
   else:
     print("Not Toxic")
-    return 'Not Toxic'
+    return 0
+  
+
+def preprocess_textList(textList):
+    # Tokenize and pad the input text
+    sequence = tokenizer.texts_to_sequences(textList)
+    padded_sequences = pad_sequences(sequence, maxlen=maxlen, padding='post')
+    return padded_sequences
+  
+def predictToxicityList(textList):
+  processedTextList = preprocess_textList(textList)
+  predictions = model.predict(processedTextList)
+  
+  # Convert probabilities to binary outcomes based on the threshold (> 0.5)
+  # predictions[:, 0] assumes the model returns a probability array where each row corresponds to a text
+  toxicity_binary = np.where(predictions[:, 0] > 0.5, 1, 0)
+  return toxicity_binary
 
 
 # predictToxicity('That girl is bitch')
