@@ -1,5 +1,5 @@
 .container {
-    width: 280px;
+    width: 420px;
     color: #314d3e;
 }
   
@@ -8,6 +8,13 @@
     font-weight: bold;
     padding: 10px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .textbox {
@@ -20,6 +27,10 @@
 .textbox:focus {
     outline: 0;
     border-color: #66afe9;
+}
+
+.switch-container {
+  padding: 10px;
 }
 
 /* The switch - the box around the slider */
@@ -86,5 +97,9 @@
   }
 
   .word-management {
+    padding: 10px;
+  }
+
+  .password {
     padding: 10px;
   }

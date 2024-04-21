@@ -5,18 +5,29 @@
   <!-- Title -->
   <div>
     <div class="title">Protect your child's web surfing</div>
+    <div class="subtitle" id="modeTitle">Child Mode</div>
   </div>
 
   <!-- Rounded switch -->
-  <label class="switch">
-    <input type="checkbox" />
-    <span class="slider round"></span>
-  </label>
-</div>
+  <div class="switch-container">
+    <label class="switch">
+      <input type="checkbox" />
+      <span class="slider round"></span>
+    </label>
+  </div>
 
-<div class="word-management">
-  <input type="text" id="wordInput" placeholder="Enter word to censor/uncensor" />
-  <button id="addWord">Add</button>
-  <button id="removeWord">Remove</button>
-  <ul id="wordList"></ul>
+  <!-- Password -->
+  <div class="password">
+    <input type="text" id="passwordField" placeholder="Enter Password" />
+    <button id="switchUser">Switch User</button>
+    <button id="changePassword">Change Password</button>
+  </div>
+
+  <!-- Censorship Manager -->
+  <div class="word-management">
+    <input type="text" id="wordInput" placeholder="Censor/Uncensor Text" />
+    <button id="addWord">Add</button>
+    <button id="removeWord">Remove</button>
+    <ul id="wordList"></ul>
+  </div>
 </div>
