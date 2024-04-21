@@ -154,3 +154,14 @@
 })();
 
 // Other Utility Functions
+
+const applyBlur = () => {
+  chrome.storage.local.get({censoredWords: []}, function(data) {
+    const censoredWords = new Set(data.censoredWords);
+    contentList.forEach((element, index) => {
+      if (censoredWords.has(element.innerText) && !element.classList.contains("blur")) {
+        element.classList.add("blur"); // Add the 'blur' class to the element
+      }
+    });
+  });
+};
