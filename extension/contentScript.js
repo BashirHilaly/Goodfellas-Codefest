@@ -36,7 +36,7 @@
 
   // Sends textList to API and receives list of 1s and 0s
   const processToxicity = async () => {
-    const url = "http://127.0.0.1:8000/check-toxicity-fake/";
+    const url = "http://127.0.0.1:8000/check-toxicity-list/";
     try {
       const response = await fetch(url, {
         method: "POST",

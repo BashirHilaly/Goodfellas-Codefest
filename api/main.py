@@ -61,6 +61,13 @@ async def checkFakeToxicity(data: TextList):
     processed_texts = [random.randint(0,1) for _ in data.texts]  # fake processing
     return {"text_toxicity": processed_texts}
 
+@app.post('/check-toxicity-list/')
+async def checkToxicityList(data: TextList):
+    processed_texts = model.predictToxicityList(data.texts)
+    print(processed_texts)
+    return {"text_toxicity": processed_texts.tolist()}
+
+
 @app.get('/check-toxicity/{text}')
 def checkToxicity(text):
     result = model.predictToxicity(text)
