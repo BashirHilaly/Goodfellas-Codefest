@@ -4,9 +4,10 @@
 }
   
 .title {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: bold;
-    padding: 8px;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .textbox {
@@ -82,4 +83,8 @@
   
   .slider.round:before {
     border-radius: 50%;
+  }
+
+  .word-management {
+    padding: 10px;
   }
