@@ -83,6 +83,29 @@
         contentList[i].classList.add("blur"); // Add the 'blur' class to the element
       }
     }
+
+    // Loop through content list and checks if innerText has a censoredWord
+    chrome.storage.local.get({ censoredWords: [] }, function (data) {
+      console.log("CENSORED WORDS: ", data.censoredWords);
+      contentList.forEach((element) => {
+        let modifiedHTML = element.innerHTML;
+
+        data.censoredWords.forEach((censoredWord) => {
+          // Create a regular expression to find all occurrences of the censored word
+          const regex = new RegExp(censoredWord, "gi");
+          // Replace censored words with a span containing the word, applying the blur class to the span
+          modifiedHTML = modifiedHTML.replace(
+            regex,
+            '<span class="blur">$&</span>'
+          );
+        });
+
+        // Update the innerHTML only if changes have been made to avoid unnecessary DOM updates
+        if (modifiedHTML !== element.innerHTML) {
+          element.innerHTML = modifiedHTML;
+        }
+      });
+    });
   };
 
   const removeBlur = () => {
@@ -154,14 +177,3 @@
 })();
 
 // Other Utility Functions
-
-const applyBlur = () => {
-  chrome.storage.local.get({censoredWords: []}, function(data) {
-    const censoredWords = new Set(data.censoredWords);
-    contentList.forEach((element, index) => {
-      if (censoredWords.has(element.innerText) && !element.classList.contains("blur")) {
-        element.classList.add("blur"); // Add the 'blur' class to the element
-      }
-    });
-  });
-};
