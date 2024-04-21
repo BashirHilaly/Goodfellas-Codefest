@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+header {
+    display: flex;
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    top: 0;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #0467CC;
+    color: white;
+    height: 47px;
+    width: 187px;
+    cursor: pointer;
+    border-radius: 21px;
+    font-size: 15px;
+    border-style: none;
+}
+
+p {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+} 
+
+h2 {
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#create {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+
+}
