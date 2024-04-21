@@ -6,10 +6,20 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 import os
 import json
-
 import numpy as np
 
-df = pd.read_csv("D:/Coding/Goodfellas-Codefest/dataset/toxicity_en.csv")
+# Load the configuration for different model path computers
+def load_config():
+    with open('./config.json', 'r') as f:
+        config = json.load(f)
+    return config
+
+config = load_config()
+
+model_path = config['model_path']
+dataset_path = config['dataset_path']
+
+df = pd.read_csv(dataset_path)
 
 label_encoder = LabelEncoder()
 df['is_toxic'] = label_encoder.fit_transform(df['is_toxic'])
@@ -36,15 +46,6 @@ X_test = pad_sequences(X_test, maxlen=maxlen, padding='post')
 y_train = train_df['is_toxic']
 y_test = test_df['is_toxic']
 
-# Load the configuration for different model path computers
-def load_config():
-    with open('D:/Coding/Goodfellas-Codefest/api/config.json', 'r') as f:
-        config = json.load(f)
-    return config
-
-config = load_config()
-model_path = config['model_path']
-
 if not os.path.exists(model_path):
   print("Model doesnt exist. Training one now...")
   # Define and compile your model
@@ -66,9 +67,9 @@ if not os.path.exists(model_path):
   print("Accuracy: ", accuracy)
 
   # Save the model
-  model.save('D:/Coding/Goodfellas-Codefest/model/toxicity_model_v1.h5')
+  model.save(model_path)
 else:
-  model = tf.keras.models.load_model('D:/Coding/Goodfellas-Codefest/model/toxicity_model_v1.h5')
+  model = tf.keras.models.load_model(model_path)
 
 
 def preprocess_text(text):

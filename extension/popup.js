@@ -19,43 +19,40 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  chrome.storage.local.get({ censoredWords: [] }, function (data) {
+    updateWordList(data.censoredWords);
+  });
 });
 
 //Handles word addition
-document.getElementById('addWord').addEventListener('click', function() {
-  const word = document.getElementById('wordInput').value.trim();
-  chrome.storage.local.get({censoredWords: []}, function(data) {
+document.getElementById("addWord").addEventListener("click", function () {
+  const word = document.getElementById("wordInput").value.trim();
+  chrome.storage.local.get({ censoredWords: [] }, function (data) {
     const updatedWords = [...new Set([...data.censoredWords, word])];
-    chrome.storage.local.set({censoredWords: updatedWords});
-    document.getElementById('wordInput').value = ''; // Clear input
+    chrome.storage.local.set({ censoredWords: updatedWords });
+    document.getElementById("wordInput").value = ""; // Clear input
     updateWordList(updatedWords); // Update UI
   });
 });
 
 // Handling word removal
-document.getElementById('removeWord').addEventListener('click', function() {
-  const word = document.getElementById('wordInput').value.trim();
-  chrome.storage.local.get({censoredWords: []}, function(data) {
-    const updatedWords = data.censoredWords.filter(w => w !== word);
-    chrome.storage.local.set({censoredWords: updatedWords});
+document.getElementById("removeWord").addEventListener("click", function () {
+  const word = document.getElementById("wordInput").value.trim();
+  chrome.storage.local.get({ censoredWords: [] }, function (data) {
+    const updatedWords = data.censoredWords.filter((w) => w !== word);
+    chrome.storage.local.set({ censoredWords: updatedWords });
     updateWordList(updatedWords); // Update UI
   });
 });
 
 // Function to update the word list display
 function updateWordList(words) {
-  const list = document.getElementById('wordList');
-  list.innerHTML = '';
-  words.forEach(word => {
-    let item = document.createElement('li');
+  const list = document.getElementById("wordList");
+  list.innerHTML = "";
+  words.forEach((word) => {
+    let item = document.createElement("li");
     item.textContent = word;
     list.appendChild(item);
   });
 }
-
-// Initialize the word list on load
-document.addEventListener("DOMContentLoaded", function() {
-  chrome.storage.local.get({censoredWords: []}, function(data) {
-    updateWordList(data.censoredWords);
-  });
-});
