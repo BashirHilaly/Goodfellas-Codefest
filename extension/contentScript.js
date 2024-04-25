@@ -11,9 +11,7 @@
     if (
       (node.tagName.match(/^H[1-6]$/) ||
         node.tagName === "P" ||
-        node.tagName === "SPAN" ||
-        node.tagName === "A" ||
-        node.tagName === "BLOCKQUOTE") &&
+        node.tagName === "SPAN") &&
       node.innerText.trim() !== ""
     ) {
       contentList.push(node);
