@@ -1,0 +1,1 @@
+api/glove.twitter.27B.100d.txt filter=lfs diff=lfs merge=lfs -text
